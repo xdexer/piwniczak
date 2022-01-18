@@ -75,7 +75,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             productList.clear();
-            productListAll.addAll((Collection<? extends Product>) results.values);
+            productList.addAll((Collection<? extends Product>) results.values);
             notifyDataSetChanged();
         }
     };
@@ -93,6 +93,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         @Override
         public void onClick(View view) {
             Intent newActivity = new Intent(view.getContext(), ProductActivity.class);
+            System.out.println("CLICKED: " + productList.get(getLayoutPosition()).getTitle());
             newActivity.putExtra("productID", productList.get(getLayoutPosition()).getUU().toString());
             view.getContext().startActivity(newActivity);
         }

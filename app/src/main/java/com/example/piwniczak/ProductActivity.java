@@ -34,6 +34,7 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ProductActivity extends AppCompatActivity {
 
@@ -71,20 +72,28 @@ public class ProductActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void deleteButtonClicked(View view) {
-        productList.deleteProduct(currentProduct.getUU());
-        //delete record in DB (DELETE)
-        class DeleteProduct extends AsyncTask<Void, Void, Void> {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            protected Void doInBackground(Void... voids) {
-                ProductLab.get(getApplicationContext()).getProductDatabase().productDao().delete(currentProduct);
-                System.out.println("DELETE CRIME " + currentProduct.getId());
-                return null;
-            }
-        }
-        DeleteProduct dc = new DeleteProduct();
-        dc.execute();
-        finish();
+        new AlertDialog.Builder(this)
+                .setMessage("Czy usunąć produkt z bazy?")
+                .setPositiveButton("Tak", (dialog, which) -> {
+                    productList.deleteProduct(currentProduct.getUU());
+                    //delete record in DB (DELETE)
+                    class DeleteProduct extends AsyncTask<Void, Void, Void> {
+                        @RequiresApi(api = Build.VERSION_CODES.O)
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            ProductLab.get(getApplicationContext()).getProductDatabase().productDao().delete(currentProduct);
+                            System.out.println("DELETE CRIME " + currentProduct.getId());
+                            return null;
+                        }
+                    }
+                    DeleteProduct dc = new DeleteProduct();
+                    dc.execute();
+                    finish();
+                })
+                .setNegativeButton("Nie", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

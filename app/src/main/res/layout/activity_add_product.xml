@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context=".AddProduct">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -83,32 +85,27 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/product_quantitynum_edittext"
                     android:layout_alignParentRight="true"
-
                     android:text="+" />
 
-                <ImageView
-                    android:id="@+id/image_view_picture"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_below="@+id/product_decrease_quantity"
-                    app:srcCompat="@android:drawable/sym_def_app_icon"
-                    />
                 <Button
-                    android:id="@+id/delete_product_button"
+                    android:id="@+id/cancel_button"
                     android:layout_width="160dp"
-                    android:layout_height="match_parent"
-                    android:text="Usuń produkt"
+                    android:layout_height="80dp"
+                    android:text="Anuluj"
                     android:textColor="@android:color/white"
-                    android:layout_below="@+id/image_view_picture"
-                    android:onClick="deleteButtonClicked"/>
-                <ImageButton
-                    android:id="@+id/take_a_photo_button"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:onClick="cancel"/>
+
+                <Button
+                    android:id="@+id/add_product_button"
                     android:layout_width="160dp"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/image_view_picture"
+                    android:layout_height="80dp"
+                    android:text="Dodaj Produkt"
+                    android:textColor="@android:color/white"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_baseline_camera_24"
-                    android:onClick="takeAPhoto"/>
+                    android:onClick="add_product"/>
             </RelativeLayout>
 
         </LinearLayout>

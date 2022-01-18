@@ -35,7 +35,7 @@ public class ProductLab {
 //
 //            @Override
 //            protected Void doInBackground(Void... voids){
-//                for (int i = 0; i < 30; i++){
+//                for (int i = 0; i < 15; i++){
 //                    Product product = new Product();
 //                    product.setTitle("Product #" + i);
 //                    product.setDescription("fsgfdsgdasdweffsf");

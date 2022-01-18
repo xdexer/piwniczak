@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.List;
 
@@ -55,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
             protected Void doInBackground(Void... voids) {
                 List<Product> xd = ProductLab.get(getApplicationContext()).getProductDatabase().productDao().getAll();
                 int i = 0;
-                for (Product x : xd) {
-                    System.out.println(i + " " + x.getTitle());
-                }
+//                for (Product x : xd) {
+//                    System.out.println(i + " " + x.getTitle());
+//                }
                 return null;
             }
         }
@@ -84,5 +86,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void go_to_add_product(View view) {
+        Intent myIntent = new Intent(MainActivity.this, AddProduct.class);
+        MainActivity.this.startActivity(myIntent);
     }
 }
