@@ -28,6 +28,9 @@ public class Product implements Serializable {
     @ColumnInfo(name = "quantity")
     private int mQuantity;
 
+    @ColumnInfo(name = "year")
+    private int mYear;
+
     @ColumnInfo(name = "image")
     private byte[] mImage;
 
@@ -76,17 +79,25 @@ public class Product implements Serializable {
 
     public void setImage(byte[] image) { mImage = image; }
 
+    public int getYear() { return mYear; }
+
+    public void setYear(int mYear) { this.mYear = mYear; }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public Product(){
         UU = UUID.randomUUID();
+        mImage = new byte[0];
+        mQuantity = 0;
+        mYear = 1970;
     }
 
-    public Product(String title, String description, int quantity, byte[] image){
+    public Product(String title, String description, int quantity, int year, byte[] image){
         UU = UUID.randomUUID();
         mTitle = title;
         mDescription = description;
         mQuantity = quantity;
         mImage = image;
+        mYear = year;
     }
 
 }

@@ -41,6 +41,15 @@
                 android:imeOptions="actionSend"
                 android:layout_marginTop="40dp"
                 android:text="Opis"/>
+
+            <TextView
+                android:id="@+id/product_year_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:layout_alignParentLeft="true"
+                android:textSize="30sp"
+                android:text="Rok produkcji: XXXX" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,20 +65,10 @@
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:id="@+id/product_quantity_edittext"
+                    android:id="@+id/product_quantitynum_edittext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:layout_alignParentLeft="true"
-                    android:textSize="30sp"
-                    android:text="Ilość produktu: " />
-
-                <TextView
-                    android:id="@+id/product_quantitynum_edittext"
-                    android:layout_width="149dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:gravity="right"
                     android:text="000"
                     android:textSize="30sp" />
 
@@ -77,19 +76,21 @@
                     android:id="@+id/product_decrease_quantity"
                     android:layout_width="96dp"
                     android:layout_height="wrap_content"
+                    android:onClick="manip_quantity"
                     android:layout_below="@id/product_quantitynum_edittext"
                     android:text="-" />
                 <Button
                     android:id="@+id/product_increase_quantity"
                     android:layout_width="96dp"
                     android:layout_height="wrap_content"
+                    android:onClick="manip_quantity"
                     android:layout_below="@id/product_quantitynum_edittext"
                     android:layout_alignParentRight="true"
                     android:text="+" />
 
                 <Button
                     android:id="@+id/cancel_button"
-                    android:layout_width="160dp"
+                    android:layout_width="110dp"
                     android:layout_height="80dp"
                     android:text="Anuluj"
                     android:textColor="@android:color/white"
@@ -98,8 +99,17 @@
                     android:onClick="cancel"/>
 
                 <Button
+                    android:id="@+id/product_edit_year"
+                    android:layout_width="120dp"
+                    android:layout_height="80dp"
+                    android:onClick="changeYear"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="Zmień Rok Produkcji" />
+
+                <Button
                     android:id="@+id/add_product_button"
-                    android:layout_width="160dp"
+                    android:layout_width="110dp"
                     android:layout_height="80dp"
                     android:text="Dodaj Produkt"
                     android:textColor="@android:color/white"

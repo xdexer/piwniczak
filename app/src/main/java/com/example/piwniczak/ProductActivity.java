@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,8 +32,12 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -41,9 +46,11 @@ public class ProductActivity extends AppCompatActivity {
     EditText productName_edittext;
     EditText productDescription_edittext;
     TextView productQuantityNum_textview;
+    TextView productYear_textview;
     ImageView currentImageView;
     ProductLab productList;
     Product currentProduct;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +70,10 @@ public class ProductActivity extends AppCompatActivity {
         productDescription_edittext.setText(currentProduct.getDescription());
 
         productQuantityNum_textview = findViewById(R.id.product_quantitynum_edittext);
-        productQuantityNum_textview.setText(String.valueOf(currentProduct.getQuantity()));
+        productQuantityNum_textview.setText("Pozostało: " + String.valueOf(currentProduct.getQuantity()));
+
+        productYear_textview = findViewById(R.id.product_year_textview);
+        productYear_textview.setText("Rok produkcji: " + String.valueOf(currentProduct.getYear()));
 
         currentImageView = findViewById(R.id.image_view_picture);
         Bitmap bmp = BitmapFactory.decodeByteArray(currentProduct.getImage(), 0, currentProduct.getImage().length);
@@ -102,7 +112,6 @@ public class ProductActivity extends AppCompatActivity {
         super.onPause();
         currentProduct.setTitle(String.valueOf(((EditText) findViewById(R.id.product_name_edittext)).getText()));
         currentProduct.setDescription(String.valueOf(((EditText) findViewById(R.id.product_description_edittext)).getText()));
-
         //update record in DB
         class UpdateProduct extends AsyncTask<Void, Void, Void> {
             @Override
@@ -177,5 +186,45 @@ public class ProductActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("CANCEL", (dialog, which) -> dialog.dismiss())
                 .show();
+    }
+
+    public void manip_quantity(View view) {
+        if(((Button)view).getText().toString().equals("+")){
+            currentProduct.setQuantity(currentProduct.getQuantity() + 1);
+        }
+        else if(((Button)view).getText().toString().equals("-")){
+            currentProduct.setQuantity(currentProduct.getQuantity() - 1);
+        }
+        productQuantityNum_textview.setText("Pozostało: " + String.valueOf(currentProduct.getQuantity()));
+    }
+
+    public void changeYear(View view) {
+        SwitchDateTimeDialogFragment dateTimeDialogFragment = SwitchDateTimeDialogFragment.newInstance("Select Crime Date",
+                "OK",
+                "Cancel");
+
+        dateTimeDialogFragment.startAtYearView();
+        dateTimeDialogFragment.set24HoursMode(true);
+        dateTimeDialogFragment.setMinimumDateTime(new GregorianCalendar(1999, Calendar.JANUARY, 1).getTime());
+        dateTimeDialogFragment.setMaximumDateTime(new GregorianCalendar(2099, Calendar.DECEMBER, 31).getTime());
+        dateTimeDialogFragment.setDefaultDateTime(new GregorianCalendar().getTime());
+
+        dateTimeDialogFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
+            @Override
+            public void onPositiveButtonClick(Date date) {
+                // Date is get on positive button click
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                currentProduct.setYear(cal.get(Calendar.YEAR));
+                productYear_textview.setText("Rok produkcji: " + String.valueOf(currentProduct.getYear()));
+            }
+
+            @Override
+            public void onNegativeButtonClick(Date date) {
+                // Date is get on negative button click
+            }
+        });
+
+        dateTimeDialogFragment.show(getSupportFragmentManager(), "dialog_time");
     }
 }

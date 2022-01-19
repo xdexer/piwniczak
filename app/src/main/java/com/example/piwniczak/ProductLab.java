@@ -104,5 +104,7 @@ public class ProductLab {
     public void deleteProduct(UUID id){
         mProducts.removeIf(product -> product.getUU() == id);
     }
-
+    public void addProduct(Product x){
+        mProducts.add(x);
+    }
 }

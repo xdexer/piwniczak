@@ -38,7 +38,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.textViewName.setText(productList.get(position).getTitle());
-        holder.textViewQuantity.setText(String.valueOf(productList.get(position).getQuantity()));
+        holder.textViewQuantity.setText("Pozostała ilość: " + String.valueOf(productList.get(position).getQuantity()));
+        holder.textViewYear.setText("Rok produkcji: " + String.valueOf(productList.get(position).getYear()));
     }
 
     @Override
@@ -83,11 +84,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView textViewName;
         private final TextView textViewQuantity;
+        private final TextView textViewYear;
         public ViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
             this.textViewName = view.findViewById(R.id.productName);
             this.textViewQuantity = view.findViewById(R.id.productQuantity);
+            this.textViewYear = view.findViewById(R.id.productYear);
         }
 
         @Override

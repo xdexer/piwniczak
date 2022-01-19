@@ -36,6 +36,13 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
+    protected void onRestart(){
+        super.onRestart();
+        init();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
     protected void onDestroy(){
         super.onDestroy();
     }
