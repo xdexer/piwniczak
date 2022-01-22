@@ -17,13 +17,11 @@ import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> implements Filterable {
 
-    private ProductLab mData;
-    private List<Product> productList;
-    private List<Product> productListAll;
+    private final List<Product> productList;
+    private final List<Product> productListAll;
 
     public ProductAdapter(ProductLab data){
-        this.mData = data;
-        this.productListAll = mData.getProducts();
+        this.productListAll = data.getProducts();
         this.productList = new ArrayList<>();
         productList.addAll(productListAll);
     }
@@ -38,8 +36,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.textViewName.setText(productList.get(position).getTitle());
-        holder.textViewQuantity.setText("Pozostała ilość: " + String.valueOf(productList.get(position).getQuantity()));
-        holder.textViewYear.setText("Rok produkcji: " + String.valueOf(productList.get(position).getYear()));
+        holder.textViewQuantity.setText(String.format("Pozostała ilość: %s", String.valueOf(productList.get(position).getQuantity())));
+        holder.textViewYear.setText(String.format("Rok produkcji: %s", String.valueOf(productList.get(position).getYear())));
     }
 
     @Override
@@ -96,7 +94,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         @Override
         public void onClick(View view) {
             Intent newActivity = new Intent(view.getContext(), ProductActivity.class);
-            System.out.println("CLICKED: " + productList.get(getLayoutPosition()).getTitle());
             newActivity.putExtra("productID", productList.get(getLayoutPosition()).getUU().toString());
             view.getContext().startActivity(newActivity);
         }

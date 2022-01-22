@@ -18,10 +18,10 @@ import java.util.GregorianCalendar;
 
 public class AddProduct extends AppCompatActivity {
 
-    int number_of_products = 0;
     Product newProduct;
     TextView productQuantityNum_textview;
     TextView productYear_textview;
+    Utils utils;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -32,10 +32,12 @@ public class AddProduct extends AppCompatActivity {
         newProduct = new Product();
 
         productQuantityNum_textview = findViewById(R.id.product_quantitynum_edittext);
-        productQuantityNum_textview.setText("Pozostało: " + String.valueOf(newProduct.getQuantity()));
+        productQuantityNum_textview.setText(String.format("Pozostało: %s", String.valueOf(newProduct.getQuantity())));
 
         productYear_textview = findViewById(R.id.product_year_textview);
-        productYear_textview.setText("Rok produkcji: " + String.valueOf(newProduct.getYear()));
+        productYear_textview.setText(String.format("Rok produkcji: %s", String.valueOf(newProduct.getYear())));
+
+        utils = new Utils();
     }
 
     public void cancel(View view) {
@@ -43,13 +45,7 @@ public class AddProduct extends AppCompatActivity {
     }
 
     public void manip_quantity(View view) {
-        if(((Button)view).getText().toString().equals("+")){
-            newProduct.setQuantity(newProduct.getQuantity() + 1);
-        }
-        else if(((Button)view).getText().toString().equals("-")){
-            newProduct.setQuantity(newProduct.getQuantity() - 1);
-        }
-        productQuantityNum_textview.setText("Pozostało: " + String.valueOf(newProduct.getQuantity()));
+        utils.manip_quantity_func(view, newProduct, productQuantityNum_textview);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -63,33 +59,7 @@ public class AddProduct extends AppCompatActivity {
     }
 
     public void changeYear(View view) {
-        SwitchDateTimeDialogFragment dateTimeDialogFragment = SwitchDateTimeDialogFragment.newInstance("Select Crime Date",
-                "OK",
-                "Cancel");
-
-        dateTimeDialogFragment.startAtYearView();
-        dateTimeDialogFragment.set24HoursMode(true);
-        dateTimeDialogFragment.setMinimumDateTime(new GregorianCalendar(1999, Calendar.JANUARY, 1).getTime());
-        dateTimeDialogFragment.setMaximumDateTime(new GregorianCalendar(2099, Calendar.DECEMBER, 31).getTime());
-        dateTimeDialogFragment.setDefaultDateTime(new GregorianCalendar().getTime());
-
-        dateTimeDialogFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
-            @Override
-            public void onPositiveButtonClick(Date date) {
-                // Date is get on positive button click
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
-                newProduct.setYear(cal.get(Calendar.YEAR));
-                productYear_textview.setText("Rok produkcji: " + String.valueOf(newProduct.getYear()));
-            }
-
-            @Override
-            public void onNegativeButtonClick(Date date) {
-                // Date is get on negative button click
-            }
-        });
-
-        dateTimeDialogFragment.show(getSupportFragmentManager(), "dialog_time");
+        utils.changeYearDialog(view, newProduct, productYear_textview, getSupportFragmentManager());
     }
 
 

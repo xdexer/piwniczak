@@ -24,46 +24,11 @@ public class ProductLab {
 
         return sProductLab;
     }
-
+    
     @RequiresApi(api = Build.VERSION_CODES.O)
     private ProductLab(Context context){
         productDatabase = ProductDatabase.getInstance(context);
         mProducts = productDatabase.productDao().getAll();
-
-//        Create initial data for DB (use only if not already created) (CREATE)
-//        class SaveProduct extends AsyncTask<Void, Void, Void> {
-//
-//            @Override
-//            protected Void doInBackground(Void... voids){
-//                for (int i = 0; i < 15; i++){
-//                    Product product = new Product();
-//                    product.setTitle("Product #" + i);
-//                    product.setDescription("fsgfdsgdasdweffsf");
-//                    product.setQuantity(2137);
-//                    product.setImage(new byte[0]);
-//                    productDatabase.productDao().insert(product);
-//                }
-//                return null;
-//            }
-//        }
-//        SaveProduct sc = new SaveProduct();
-//        sc.execute();
-//
-//        //get data from DB (READ) NOT WORKING BECAUSE OF SYNC THREADS
-//        class GetProducts extends AsyncTask<Void, Void, Void> {
-//            @Override
-//            protected Void doInBackground(Void... voids) {
-//                mProducts = productDatabase.productDao().getAll();
-//                return null;
-//            }
-//
-//            @Override
-//            protected void onPostExecute(Void aVoid){
-//                super.onPostExecute(aVoid);
-//            }
-//        }
-//        GetProducts gc = new GetProducts();
-//        gc.execute();
     }
 
     public List<Product> getProducts(){

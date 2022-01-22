@@ -51,6 +51,7 @@ public class ProductActivity extends AppCompatActivity {
     ProductLab productList;
     Product currentProduct;
 
+    Utils utils;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +71,16 @@ public class ProductActivity extends AppCompatActivity {
         productDescription_edittext.setText(currentProduct.getDescription());
 
         productQuantityNum_textview = findViewById(R.id.product_quantitynum_edittext);
-        productQuantityNum_textview.setText("Pozostało: " + String.valueOf(currentProduct.getQuantity()));
+        productQuantityNum_textview.setText(String.format("Pozostało: %s", String.valueOf(currentProduct.getQuantity())));
 
         productYear_textview = findViewById(R.id.product_year_textview);
-        productYear_textview.setText("Rok produkcji: " + String.valueOf(currentProduct.getYear()));
+        productYear_textview.setText(String.format("Rok produkcji: %s", String.valueOf(currentProduct.getYear())));
 
         currentImageView = findViewById(R.id.image_view_picture);
         Bitmap bmp = BitmapFactory.decodeByteArray(currentProduct.getImage(), 0, currentProduct.getImage().length);
         currentImageView.setImageBitmap(bmp);
+
+        utils = new Utils();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -152,7 +155,6 @@ public class ProductActivity extends AppCompatActivity {
         ).withListener(new PermissionListener() {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                //Toast.makeText(CrimeActivity.this, "READ permission granted", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 launchCamera.launch(intent);
             }
@@ -189,42 +191,10 @@ public class ProductActivity extends AppCompatActivity {
     }
 
     public void manip_quantity(View view) {
-        if(((Button)view).getText().toString().equals("+")){
-            currentProduct.setQuantity(currentProduct.getQuantity() + 1);
-        }
-        else if(((Button)view).getText().toString().equals("-")){
-            currentProduct.setQuantity(currentProduct.getQuantity() - 1);
-        }
-        productQuantityNum_textview.setText("Pozostało: " + String.valueOf(currentProduct.getQuantity()));
+        utils.manip_quantity_func(view, currentProduct, productQuantityNum_textview);
     }
 
     public void changeYear(View view) {
-        SwitchDateTimeDialogFragment dateTimeDialogFragment = SwitchDateTimeDialogFragment.newInstance("Select Crime Date",
-                "OK",
-                "Cancel");
-
-        dateTimeDialogFragment.startAtYearView();
-        dateTimeDialogFragment.set24HoursMode(true);
-        dateTimeDialogFragment.setMinimumDateTime(new GregorianCalendar(1999, Calendar.JANUARY, 1).getTime());
-        dateTimeDialogFragment.setMaximumDateTime(new GregorianCalendar(2099, Calendar.DECEMBER, 31).getTime());
-        dateTimeDialogFragment.setDefaultDateTime(new GregorianCalendar().getTime());
-
-        dateTimeDialogFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
-            @Override
-            public void onPositiveButtonClick(Date date) {
-                // Date is get on positive button click
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
-                currentProduct.setYear(cal.get(Calendar.YEAR));
-                productYear_textview.setText("Rok produkcji: " + String.valueOf(currentProduct.getYear()));
-            }
-
-            @Override
-            public void onNegativeButtonClick(Date date) {
-                // Date is get on negative button click
-            }
-        });
-
-        dateTimeDialogFragment.show(getSupportFragmentManager(), "dialog_time");
+        utils.changeYearDialog(view, currentProduct, productYear_textview, getSupportFragmentManager());
     }
 }

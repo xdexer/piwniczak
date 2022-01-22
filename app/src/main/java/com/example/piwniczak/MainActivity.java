@@ -57,21 +57,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(cr);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
-        Context ctx = this;
-        class GetProducts extends AsyncTask<Void, Void, Void> {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                List<Product> xd = ProductLab.get(getApplicationContext()).getProductDatabase().productDao().getAll();
-                int i = 0;
-//                for (Product x : xd) {
-//                    System.out.println(i + " " + x.getTitle());
-//                }
-                return null;
-            }
-        }
-        GetProducts gc = new GetProducts();
-        gc.execute();
     }
 
     @Override
